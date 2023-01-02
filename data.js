@@ -1724,3 +1724,13 @@ const recipes = [
         "ustensils":["rouleau à patisserie","fouet"]
     }
 ]
+let listeIngredient = []
+recipes.map((e) => {
+    for(let i = 0; i < e.ingredients.length; i++) {
+        if(!listeIngredient.includes(e.ingredients[i].ingredient)) {
+            listeIngredient.push(e.ingredients[i].ingredient)
+        }
+    }
+    listeIngredient.sort()
+})
+console.log(listeIngredient)

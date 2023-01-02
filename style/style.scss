@@ -1,0 +1,14 @@
+.filter-select {
+    display: flex;
+    }
+.accordion {
+    display: flex;
+    width: 150px;
+    justify-content: space-between;
+    background: lightblue;
+    padding: 5px;
+    margin: 10px;
+    .search-input-accordion {
+        display: none;
+    }
+}

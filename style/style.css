@@ -1,0 +1,15 @@
+.filter-select {
+  display: flex;
+}
+
+.accordion {
+  display: flex;
+  width: 150px;
+  justify-content: space-between;
+  background: lightblue;
+  padding: 5px;
+  margin: 10px;
+}
+.accordion .search-input-accordion {
+  display: none;
+}/*# sourceMappingURL=style.css.map */
