@@ -1724,6 +1724,15 @@ const recipes = [
         "ustensils":["rouleau à patisserie","fouet"]
     }
 ]
+// séparer les données dans plusieurs listes
+// nom des recettes
+let listeRecette = []
+recipes.map((e) => {
+    listeRecette.push(e.name)
+    listeRecette.sort()
+})
+
+//ingrédients
 let listeIngredient = []
 recipes.map((e) => {
     for(let i = 0; i < e.ingredients.length; i++) {
@@ -1733,4 +1742,83 @@ recipes.map((e) => {
     }
     listeIngredient.sort()
 })
-console.log(listeIngredient)
+
+// ustensils
+let listeUstensil = []
+recipes.map((e) => {
+    for(let i =0; i < e.ustensils.length; i++) {
+        if(!listeUstensil.includes(e.ustensils[i])) {
+            listeUstensil.push(e.ustensils[i])
+        }
+    }
+    listeUstensil.sort()
+})
+
+//équipement
+let listeAppliance = []
+recipes.map((e) => {
+    if(!listeAppliance.includes(e.appliance)) {
+        listeAppliance.push(e.appliance)
+    }
+    listeAppliance.sort()
+})
+
+console.log(listeRecette)
+//console.log(listeIngredient)
+//console.log(listeUstensil)
+//console.log(listeAppliance)
+
+// premier algo de tri
+function algoTri(texte, ingredient, ustensil, appliance) {
+
+    let result = []
+
+    if(texte != null && ingredient != null && ustensil != null && appliance != null) {
+        recipes.map((e) => {
+            for(let i = 0; i < e.ingredients.length; i++) {
+                if(e.ingredients[i].ingredient.toLowerCase().includes(ingredient.toLowerCase())) {
+                    if(e.ustensils.includes(ustensil.toLowerCase())) {
+                        if(e.appliance.toLowerCase().includes(appliance.toLowerCase())){
+                            if(e.name.toLowerCase().includes(texte.toLowerCase())){
+                                result.push(e)
+                            }
+                        }
+                    }
+                }
+            }
+        })
+    } else if (texte != null && ingredient != null && ustensil != null && appliance === undefined) {
+        recipes.map((e) => {
+            for(let i = 0; i < e.ingredients.length; i++) {
+                if(e.ingredients[i].ingredient.toLowerCase().includes(ingredient.toLowerCase())) {
+                    if(e.ustensils.includes(ustensil.toLowerCase())) {
+                        if(e.name.toLowerCase().includes(texte.toLowerCase())){
+                            result.push(e)
+                        }
+                    }
+                }
+            }
+        })
+    } else if (texte != null && ingredient != null && ustensil === undefined && appliance === undefined) {
+        recipes.map((e) => {
+            for(let i = 0; i < e.ingredients.length; i++) {
+                if(e.ingredients[i].ingredient.toLowerCase().includes(ingredient.toLowerCase())) {
+                        if(e.name.toLowerCase().includes(texte.toLowerCase())){
+                            result.push(e)
+                        }
+                }
+            }
+        }) 
+    } else if (texte != null && ingredient === undefined && ustensil === undefined && appliance === undefined) {
+        recipes.map((e) => {
+                if(e.name.toLowerCase().includes(texte.toLowerCase())){
+                    result.push(e)
+                }
+        }) 
+    }
+
+    return result
+}
+
+console.log(algoTri('Choco', 'beurre', 'CasserOle', 'foUR'))
+// problemes va se présenter si plusierus ingrédients / ustentils / appliance
