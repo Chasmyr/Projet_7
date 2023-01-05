@@ -1763,7 +1763,7 @@ recipes.map((e) => {
     listeAppliance.sort()
 })
 
-console.log(listeRecette)
+//console.log(listeRecette)
 //console.log(listeIngredient)
 //console.log(listeUstensil)
 //console.log(listeAppliance)
@@ -1772,7 +1772,10 @@ console.log(listeRecette)
 function algoTri(texte, ingredient, ustensil, appliance) {
 
     let result = []
-
+    const filter = [texte != null, ingredient != null, ustensil != null, appliance != null]
+    // essayer d'utiliser ca pour un switch
+    // mais enfaite ya rien qui fonctionne car c'est pas modulable si on a du texte et des équipements ca casse
+    
     if(texte != null && ingredient != null && ustensil != null && appliance != null) {
         recipes.map((e) => {
             for(let i = 0; i < e.ingredients.length; i++) {
@@ -1819,6 +1822,138 @@ function algoTri(texte, ingredient, ustensil, appliance) {
 
     return result
 }
+algoTri('Choco', 'beurre', 'CasserOle', 'foUR')
+// problemes va se présenter si plusieurs ingrédients / ustentils / appliance
+// faut trouver une soluce avec un objet genre
+// le refaire avec un foreach plutot qu'avec des array method et essaye de suppr des if
 
-console.log(algoTri('Choco', 'beurre', 'CasserOle', 'foUR'))
-// problemes va se présenter si plusierus ingrédients / ustentils / appliance
+function sortRecipesWithArrayMethod(recipes, sortCriteria) {
+    let recettesFiltres = recipes
+
+    // trier d'abord par l'input de la barre de recherche
+    if(sortCriteria.hasOwnProperty('name')) {
+        recettesFiltres = recettesFiltres.filter(recette => recette.name.includes(sortCriteria.name))
+    }
+
+    // filtrer ensuite les recettes en fn des ingrédients
+    if(sortCriteria.hasOwnProperty('ingredients')) {
+        const ingredientFiltre = sortCriteria.ingredients
+        recettesFiltres = recettesFiltres.filter(recette => {
+            for(const ingredient of ingredientFiltre) {
+                if(!recette.ingredients.some(n => n.ingredient === ingredient)) {
+                    return false
+                }
+            }
+            return true
+        })
+    }
+
+    // filtrer ensuite en fn des ustensils
+    if(sortCriteria.hasOwnProperty('ustensils')) {
+        const ustensilUtilse = sortCriteria.ustensils 
+        recettesFiltres = recettesFiltres.filter(recette => recette.ustensils.some(ustensil => ustensilUtilse.includes(ustensil)))
+    }
+
+    // filtrer ensuite en fn des apparteils
+    if(sortCriteria.hasOwnProperty('appliances')) {
+        const appliancesUtilise = sortCriteria.appliances 
+        recettesFiltres = recettesFiltres.filter(recette => appliancesUtilise.includes(recette.appliance))
+    }
+
+    recettesFiltres.sort((a, b) => a.name.localeCompare(b.name))
+
+    return recettesFiltres
+}
+
+function sortRecipesWithForEachLoop(recipes, sortCriteria) {
+    let recetteFiltres = []
+
+    // filter en fn du nom
+    if(sortCriteria.hasOwnProperty('name')) {
+        recipes.forEach(recette => {
+            if(recette.name.includes(sortCriteria.name)) {
+                recetteFiltres.push(recette)
+            } else {
+                recetteFiltres = [...recipes]
+            }
+        })
+    }
+
+    // filtrer ensuite en fn des ingrédients
+    if(sortCriteria.hasOwnProperty('ingredients')) {
+        const ingredientUtilise = sortCriteria.ingredients
+        let recetteFiltresCurrent = []
+        recetteFiltres.forEach(recette => {
+            let includesIngr = true
+            ingredientUtilise.forEach(ingredient => {
+                if(!recette.ingredients.includes(ingredient)) {
+                    includesIngr = false
+                }
+            })
+            if(includesIngr) {
+                recetteFiltresCurrent.push(recette)
+            }
+        })
+        recetteFiltres = recetteFiltresCurrent
+    }
+
+    // filtrer ensuite en fn des ustensils
+    if (sortCriteria.hasOwnProperty('ustensils')) {
+        const ustensilUtilise = sortCriteria.ustensils 
+        let recetteFiltresCurrent = []
+        recetteFiltres.forEach(recette => {
+            let includeUstensil = true 
+            ustensilUtilise.forEach(ustensil => {
+                if(!recette.ustensils.includes(ustensil)) {
+                    includeUstensil = false
+                }
+            })
+            if(includeUstensil) {
+                recetteFiltresCurrent.push(recette)
+            }
+        })
+        recetteFiltres = recetteFiltresCurrent
+    }
+
+    // filtrer ensuite en fn des équipements
+    if(sortCriteria.hasOwnProperty('appliance')) {
+        const applianceUtilise = sortCriteria.appliance
+        let recetteFiltresCurrent = []
+        recetteFiltres.forEach(recette => {
+            let includeAppliance = true 
+            applianceUtilise.forEach(appliance => {
+                if(!recette.appliance.includes(appliance)) {
+                    includeAppliance = false
+                }
+            })
+            if(includeAppliance) {
+                recetteFiltresCurrent.push(recette)
+            }
+        })
+        recetteFiltres = recetteFiltresCurrent
+    }
+
+    recetteFiltres.sort((a, b) => a.name.localeCompare(b.name))
+
+    return recetteFiltres
+}
+// pourquoi il fonctionen pas lui, se batard
+
+
+const result = sortRecipesWithArrayMethod(recipes, {
+    name: 'choco',
+    ingredients: ['Beurre'],
+    ustensils: ['casserole', 'fouet'],
+    appliance: ['Four']
+})
+
+console.log(result)
+
+const result2 = sortRecipesWithForEachLoop(recipes, {
+    name: 'choco',
+    ingredients: ['Beurre'],
+    ustensils: ['casserole', 'fouet'],
+    appliance: ['Four']
+})
+
+console.log(result2)
