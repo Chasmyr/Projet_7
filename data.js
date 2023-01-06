@@ -1841,15 +1841,16 @@ function sortRecipesWithNativeLoop(recipes, sortCriteria) {
     // filter en fn du nom
     if(sortCriteria.hasOwnProperty('name') && sortCriteria.name.length >= 3) {
         let recetteFiltresCurrent = []
+        let input = sortCriteria.name
         for(let i = 0; i < recipes.length; i++) {
-            if(recipes[i].name.toLowerCase().includes(sortCriteria.name.toLowerCase())){
+            if(recipes[i].name.toLowerCase().includes(input.toLowerCase())){
                 recetteFiltresCurrent.push(recipes[i])
             }
-            if(recipes[i].description.toLowerCase().includes(sortCriteria.name.toLowerCase()) && recetteFiltresCurrent.find(e => e.id === recipes[i].id) === undefined) {
+            if(recipes[i].description.toLowerCase().includes(input.toLowerCase()) && recetteFiltresCurrent.find(e => e.id === recipes[i].id) === undefined) {
                 recetteFiltresCurrent.push(recipes[i])
             }
             for(let j = 0; j < recipes[i].ingredients.length; j++) {
-                if(recipes[i].ingredients[j].ingredient.toLowerCase().includes(sortCriteria.name.toLowerCase()) && recetteFiltresCurrent.find(e => e.id === recipes[i].id) === undefined) {
+                if(recipes[i].ingredients[j].ingredient.toLowerCase().includes(input.toLowerCase()) && recetteFiltresCurrent.find(e => e.id === recipes[i].id) === undefined) {
                     recetteFiltresCurrent.push(recipes[i])
                 }
             }
