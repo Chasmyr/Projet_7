@@ -1763,197 +1763,169 @@ recipes.map((e) => {
     listeAppliance.sort()
 })
 
-//console.log(listeRecette)
-//console.log(listeIngredient)
-//console.log(listeUstensil)
-//console.log(listeAppliance)
-
-// premier algo de tri
-function algoTri(texte, ingredient, ustensil, appliance) {
-
-    let result = []
-    const filter = [texte != null, ingredient != null, ustensil != null, appliance != null]
-    // essayer d'utiliser ca pour un switch
-    // mais enfaite ya rien qui fonctionne car c'est pas modulable si on a du texte et des équipements ca casse
-    
-    if(texte != null && ingredient != null && ustensil != null && appliance != null) {
-        recipes.map((e) => {
-            for(let i = 0; i < e.ingredients.length; i++) {
-                if(e.ingredients[i].ingredient.toLowerCase().includes(ingredient.toLowerCase())) {
-                    if(e.ustensils.includes(ustensil.toLowerCase())) {
-                        if(e.appliance.toLowerCase().includes(appliance.toLowerCase())){
-                            if(e.name.toLowerCase().includes(texte.toLowerCase())){
-                                result.push(e)
-                            }
-                        }
-                    }
-                }
-            }
-        })
-    } else if (texte != null && ingredient != null && ustensil != null && appliance === undefined) {
-        recipes.map((e) => {
-            for(let i = 0; i < e.ingredients.length; i++) {
-                if(e.ingredients[i].ingredient.toLowerCase().includes(ingredient.toLowerCase())) {
-                    if(e.ustensils.includes(ustensil.toLowerCase())) {
-                        if(e.name.toLowerCase().includes(texte.toLowerCase())){
-                            result.push(e)
-                        }
-                    }
-                }
-            }
-        })
-    } else if (texte != null && ingredient != null && ustensil === undefined && appliance === undefined) {
-        recipes.map((e) => {
-            for(let i = 0; i < e.ingredients.length; i++) {
-                if(e.ingredients[i].ingredient.toLowerCase().includes(ingredient.toLowerCase())) {
-                        if(e.name.toLowerCase().includes(texte.toLowerCase())){
-                            result.push(e)
-                        }
-                }
-            }
-        }) 
-    } else if (texte != null && ingredient === undefined && ustensil === undefined && appliance === undefined) {
-        recipes.map((e) => {
-                if(e.name.toLowerCase().includes(texte.toLowerCase())){
-                    result.push(e)
-                }
-        }) 
-    }
-
-    return result
-}
-algoTri('Choco', 'beurre', 'CasserOle', 'foUR')
-// problemes va se présenter si plusieurs ingrédients / ustentils / appliance
-// faut trouver une soluce avec un objet genre
-// le refaire avec un foreach plutot qu'avec des array method et essaye de suppr des if
+// algo de tri
 
 function sortRecipesWithArrayMethod(recipes, sortCriteria) {
     let recettesFiltres = recipes
 
     // trier d'abord par l'input de la barre de recherche
-    if(sortCriteria.hasOwnProperty('name')) {
-        recettesFiltres = recettesFiltres.filter(recette => recette.name.includes(sortCriteria.name))
+    if(sortCriteria.hasOwnProperty('name') && sortCriteria.name.length >= 3) {
+        let input = sortCriteria.name
+        let recetteFiltresCurrent = recettesFiltres.filter(recette => recette.name.toLowerCase().includes(input.toLowerCase()))
+        
+        recipes.map(recette => {
+            recette.ingredients.map(ingredientObj => {
+                if(ingredientObj.ingredient.toLowerCase().includes(input.toLowerCase()) && recetteFiltresCurrent.find(e => e.id === recette.id) === undefined) {
+                    recetteFiltresCurrent.push(recette)
+                }
+            })
+            if(recette.description.toLowerCase().includes(input.toLowerCase()) && recetteFiltresCurrent.find(e => e.id === recette.id) === undefined) {
+                recetteFiltresCurrent.push(recette)
+            }   
+            
+        })
+        recettesFiltres = recetteFiltresCurrent
     }
+    // maintenant faut ajouter de quoi filtrer aussi la description et les ingrédients grace au texte
 
     // filtrer ensuite les recettes en fn des ingrédients
     if(sortCriteria.hasOwnProperty('ingredients')) {
-        const ingredientFiltre = sortCriteria.ingredients
-        recettesFiltres = recettesFiltres.filter(recette => {
-            for(const ingredient of ingredientFiltre) {
-                if(!recette.ingredients.some(n => n.ingredient === ingredient)) {
-                    return false
+        const ingredientUtilise = sortCriteria.ingredients
+        let recetteFiltresCurrent = []
+        recettesFiltres.map(recette => {
+            let ingredientCounter = 0
+            recette.ingredients.map(ingredientObj => {
+                if(ingredientUtilise.includes(ingredientObj.ingredient)) {
+                    ingredientCounter ++
                 }
+            })
+            if(ingredientUtilise.length === ingredientCounter) {
+                recetteFiltresCurrent.push(recette)
             }
-            return true
         })
+        recettesFiltres = recetteFiltresCurrent
     }
+        
 
     // filtrer ensuite en fn des ustensils
     if(sortCriteria.hasOwnProperty('ustensils')) {
-        const ustensilUtilse = sortCriteria.ustensils 
-        recettesFiltres = recettesFiltres.filter(recette => recette.ustensils.some(ustensil => ustensilUtilse.includes(ustensil)))
+        const ustensilUtilse = sortCriteria.ustensils
+        let recetteFiltresCurrent = []
+        recettesFiltres.map(recette => {
+            let ustensilCounter = 0
+            recette.ustensils.map(ustensil => {
+                if(ustensilUtilse.includes(ustensil)) {
+                    ustensilCounter ++
+                }
+            })
+            if(ustensilCounter === ustensilUtilse.length) {
+                recetteFiltresCurrent.push(recette)
+            }
+        })
+        recettesFiltres = recetteFiltresCurrent
     }
 
     // filtrer ensuite en fn des apparteils
-    if(sortCriteria.hasOwnProperty('appliances')) {
-        const appliancesUtilise = sortCriteria.appliances 
-        recettesFiltres = recettesFiltres.filter(recette => appliancesUtilise.includes(recette.appliance))
+    if(sortCriteria.hasOwnProperty('appliance')) {
+        recettesFiltres = recettesFiltres.filter(recette => recette.appliance.includes(sortCriteria.appliance))
     }
 
-    recettesFiltres.sort((a, b) => a.name.localeCompare(b.name))
+    recettesFiltres.sort((a, b) => a.id - b.id)
 
     return recettesFiltres
 }
 
-function sortRecipesWithForEachLoop(recipes, sortCriteria) {
-    let recetteFiltres = []
+function sortRecipesWithNativeLoop(recipes, sortCriteria) {
+    let recettesFiltres = []
 
     // filter en fn du nom
-    if(sortCriteria.hasOwnProperty('name')) {
-        recipes.forEach(recette => {
-            if(recette.name.includes(sortCriteria.name)) {
-                recetteFiltres.push(recette)
-            } else {
-                recetteFiltres = [...recipes]
+    if(sortCriteria.hasOwnProperty('name') && sortCriteria.name.length >= 3) {
+        let recetteFiltresCurrent = []
+        for(let i = 0; i < recipes.length; i++) {
+            if(recipes[i].name.toLowerCase().includes(sortCriteria.name.toLowerCase())){
+                recetteFiltresCurrent.push(recipes[i])
             }
-        })
+            if(recipes[i].description.toLowerCase().includes(sortCriteria.name.toLowerCase()) && recetteFiltresCurrent.find(e => e.id === recipes[i].id) === undefined) {
+                recetteFiltresCurrent.push(recipes[i])
+            }
+            for(let j = 0; j < recipes[i].ingredients.length; j++) {
+                if(recipes[i].ingredients[j].ingredient.toLowerCase().includes(sortCriteria.name.toLowerCase()) && recetteFiltresCurrent.find(e => e.id === recipes[i].id) === undefined) {
+                    recetteFiltresCurrent.push(recipes[i])
+                }
+            }
+        }
+
+        recettesFiltres = recetteFiltresCurrent
+    } else {
+        recettesFiltres = [...recipes]
     }
 
     // filtrer ensuite en fn des ingrédients
     if(sortCriteria.hasOwnProperty('ingredients')) {
         const ingredientUtilise = sortCriteria.ingredients
         let recetteFiltresCurrent = []
-        recetteFiltres.forEach(recette => {
-            let includesIngr = true
-            ingredientUtilise.forEach(ingredient => {
-                if(!recette.ingredients.includes(ingredient)) {
-                    includesIngr = false
+        for(let i = 0; i < recettesFiltres.length; i++){
+            let ingredientCounter = 0
+            let j = 0
+            while (j < ingredientUtilise.length){
+                for(let n = 0; n < recettesFiltres[i].ingredients.length; n++){
+                    if(recettesFiltres[i].ingredients[n].ingredient === ingredientUtilise[j]){
+                        ingredientCounter ++
+                    }
                 }
-            })
-            if(includesIngr) {
-                recetteFiltresCurrent.push(recette)
+                j++
             }
-        })
-        recetteFiltres = recetteFiltresCurrent
+            if(ingredientCounter === ingredientUtilise.length) {
+                recetteFiltresCurrent.push(recettesFiltres[i])
+            }
+        }
+        recettesFiltres = recetteFiltresCurrent
     }
 
     // filtrer ensuite en fn des ustensils
     if (sortCriteria.hasOwnProperty('ustensils')) {
-        const ustensilUtilise = sortCriteria.ustensils 
+        const ustensilUtilse = sortCriteria.ustensils
         let recetteFiltresCurrent = []
-        recetteFiltres.forEach(recette => {
-            let includeUstensil = true 
-            ustensilUtilise.forEach(ustensil => {
-                if(!recette.ustensils.includes(ustensil)) {
-                    includeUstensil = false
+        for(let i = 0; i < recettesFiltres.length; i++){
+            let includesAllUstensils = true
+            let j = 0
+            while (j < ustensilUtilse.length){
+                if(!recettesFiltres[i].ustensils.includes(ustensilUtilse[j])){
+                    includesAllUstensils = false
                 }
-            })
-            if(includeUstensil) {
-                recetteFiltresCurrent.push(recette)
+                j++
             }
-        })
-        recetteFiltres = recetteFiltresCurrent
+            if(includesAllUstensils) {
+                recetteFiltresCurrent.push(recettesFiltres[i])
+            }
+        }
+        recettesFiltres = recetteFiltresCurrent
     }
 
     // filtrer ensuite en fn des équipements
     if(sortCriteria.hasOwnProperty('appliance')) {
-        const applianceUtilise = sortCriteria.appliance
         let recetteFiltresCurrent = []
-        recetteFiltres.forEach(recette => {
-            let includeAppliance = true 
-            applianceUtilise.forEach(appliance => {
-                if(!recette.appliance.includes(appliance)) {
-                    includeAppliance = false
-                }
-            })
-            if(includeAppliance) {
-                recetteFiltresCurrent.push(recette)
+        for(let i = 0; i < recettesFiltres.length; i++) {
+            if(recettesFiltres[i].appliance.includes(sortCriteria.appliance)){
+                recetteFiltresCurrent.push(recettesFiltres[i])
             }
-        })
-        recetteFiltres = recetteFiltresCurrent
+        }
+        recettesFiltres = recetteFiltresCurrent
     }
 
-    recetteFiltres.sort((a, b) => a.name.localeCompare(b.name))
+    recettesFiltres.sort((a, b) => a.id - b.id)
 
-    return recetteFiltres
+    return recettesFiltres
 }
-// pourquoi il fonctionen pas lui, se batard
-
 
 const result = sortRecipesWithArrayMethod(recipes, {
-    name: 'choco',
-    ingredients: ['Beurre'],
-    ustensils: ['casserole', 'fouet'],
-    appliance: ['Four']
+    name: 'cho',
 })
 
 console.log(result)
 
-const result2 = sortRecipesWithForEachLoop(recipes, {
-    name: 'choco',
-    ingredients: ['Beurre'],
-    ustensils: ['casserole', 'fouet'],
-    appliance: ['Four']
+const result2 = sortRecipesWithNativeLoop(recipes, {
+    name: 'cho',
 })
 
 console.log(result2)
