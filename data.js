@@ -1763,8 +1763,6 @@ recipes.map((e) => {
     listeAppliance.sort()
 })
 
-console.log(listeIngredient)
-console.log(listeUstensil)
 
 // algo de tri
 
@@ -1921,18 +1919,10 @@ function sortRecipesWithNativeLoop(recipes, sortCriteria) {
 
     return recettesFiltres
 }
-/* 
-const result = sortRecipesWithArrayMethod(recipes, {
-    name: 'cho',
-    ingredients: ['Oeuf', ]
-})
-
-console.log(result)
 
 const result2 = sortRecipesWithNativeLoop(recipes, {
     name: 'cho',
 })
-console.log(result2) */
 
 // faire un genre de riviere pour le schéma
 // display recetteFiltres, rappelez une fn display en fin d'algo
