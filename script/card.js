@@ -1,10 +1,23 @@
+// html element
 const cardWrapper = document.querySelector('.card-wrapper')
+const input = document.querySelector('.search-bar input')
+const ingredientBody = document.querySelector('#collapseOne > .accordion-body')
+const accordionIngr = document.getElementById('accordionOne')
+
+// initialiser le contenu avec les données
+//plutot que de faire une simple span, setup une grid css pour générer le contenu
+listeIngredient.map(e => {
+    let span = document.createElement('span')
+    span.innerText = e
+
+    ingredientBody.appendChild(span)
+})
 
 let filter = {}
 let result = sortRecipesWithArrayMethod(recipes, filter)
 render(result)
 
-const input = document.querySelector('.search-bar input')
+// event listener
 input.addEventListener('keydown', (e) => {
     let text = input.value
     if(text.length >= 3){
@@ -18,7 +31,17 @@ input.addEventListener('keydown', (e) => {
         render(result)
     }
 })
+accordionIngr.addEventListener('click', () => {
+    if(accordionIngr.querySelector('.accordion-button').classList.contains('collapsed')) {
+        accordionIngr.style.width = '150px'
+        console.log('fermé')
+    } else if (accordionIngr.querySelector('.accordion-collapse').classList.contains('collapsing')){   
+        accordionIngr.style.width = '650px'
+        console.log('collapsing')
+    }
+})
 
+// fn pour rendre le contenu dynamique
 function render(result) {
     cardWrapper.innerHTML = ''
     if(result.length ===0){
