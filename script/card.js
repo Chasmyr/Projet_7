@@ -2,12 +2,16 @@
 const cardWrapper = document.querySelector('.card-wrapper')
 const input = document.querySelector('.search-bar input')
 const ingredientBody = document.querySelector('#collapseOne > .accordion-body')
+const applianceBody = document.querySelector('#collapseTwo > .accordion-body')
+const ustensilBody = document.querySelector('#collapseThree > .accordion-body')
 const accordionIngr = document.getElementById('accordionOne')
 const tags = document.querySelector('.tags')
 
 let filter = {
     name: '',
-    ingredients: []
+    ingredients: [],
+    appliance: '',
+    ustensils: []
 }
 let result = sortRecipesWithArrayMethod(recipes, filter)
 render(result)
@@ -18,34 +22,144 @@ listeIngredient.map(e => {
     span.innerText = e
     span.className = "col-4"
     span.addEventListener('click', () => {
-        filter.ingredients.push(e)
-        render(sortRecipesWithArrayMethod(recipes, filter))
+        if(!filter.ingredients.includes(e)) {
+            filter.ingredients.push(e)
+            render(sortRecipesWithArrayMethod(recipes, filter))
+            createTags(filter)
+        }
     })
 
     ingredientBody.appendChild(span)
+})
+
+// faire la même chose pour les appareils
+listeAppliance.map(e => {
+    let span = document.createElement('span')
+    span.innerText = e
+    span.className = "col-4"
+    span.addEventListener('click', () => {
+        if(!filter.appliance.includes(e)) {
+            filter.appliance = e
+            render(sortRecipesWithArrayMethod(recipes, filter))
+        }
+    })
+
+    applianceBody.appendChild(span)
+})
+
+//faire la même chose pour les ustensils
+listeUstensil.map(e => {
+    let span = document.createElement('span')
+    span.innerText = e
+    span.className = "col-4"
+    span.addEventListener('click', () => {
+        if(!filter.ustensils.includes(e)) {
+            filter.ustensils.push(e)
+            render(sortRecipesWithArrayMethod(recipes, filter))
+            createTags(filter)
+        }
+    })
+
+    ustensilBody.appendChild(span)
 })
 
 // event listener
 input.addEventListener('keydown', (e) => {
     let text = input.value
     if(text.length >= 3){
-        filter.name = input.value
+        let filterCurrent = filter
+        filterCurrent.name = input.value
+        filter = filterCurrent
         console.log(filter)
         result = sortRecipesWithArrayMethod(recipes, filter)
         render(result)
-        
     } else {
-        result = recipes
-        render(result)
+        let filterCurrent = filter
+        filterCurrent.name = ''
+        filter = filterCurrent
+        render(sortRecipesWithArrayMethod(recipes, filter))
     }
-})
-accordionIngr.addEventListener('click', () => {
-    
 })
 
 // fn pour créer des tags
+let tagsAlreadyCreatedIngr = []
+let tagsAlreadyCreatedUsten = []
 function createTags(filter) {
+    filter.ingredients.map(e => {
+        if(!tagsAlreadyCreatedIngr.includes(e)) {
+            let div = document.createElement('div')
+            div.className = 'bg-primary p-2 d-flex align-items-center text-white rounded me-2'
+            div.style.width = 'fit-content'
+            div.setAttribute('id', e)
     
+            let p = document.createElement('p')
+            p.className = 'px-1 m-0'
+            p.innerText = e
+    
+            let icon = document.createElement('i')
+            icon.className= 'fa-regular fa-circle-xmark px-2'
+            icon.addEventListener('click', () => {
+                let filterCurrent = filter
+                for(let i =0; i < filter.ingredients.length; i++) {
+                    if(filter.ingredients[i] === e) {
+                        filterCurrent.ingredients.splice(i, 1)
+                    }
+                }
+                for(let i =0; i < tagsAlreadyCreatedIngr.length; i++) {
+                    if(tagsAlreadyCreatedIngr[i] === e) {
+                        tagsAlreadyCreatedIngr.splice(i, 1)
+                    }
+                }
+                console.log(filter)
+                filter = filterCurrent
+                console.log(filter)
+                render(sortRecipesWithArrayMethod(recipes, filter))
+                document.getElementById(`${e}`).remove()
+            })
+            tagsAlreadyCreatedIngr.push(e)
+            div.appendChild(p)
+            div.appendChild(icon)
+            tags.appendChild(div)
+        }       
+    })
+    filter.ustensils.map(e => {
+        if(!tagsAlreadyCreatedUsten.includes(e)) {
+            let div = document.createElement('div')
+            div.className = 'bg-danger p-2 d-flex align-items-center text-white rounded me-2'
+            div.style.width = 'fit-content'
+            div.setAttribute('id', e)
+    
+            let p = document.createElement('p')
+            p.className = 'px-1 m-0'
+            p.innerText = e
+    
+            let icon = document.createElement('i')
+            icon.className= 'fa-regular fa-circle-xmark px-2'
+            console.log(filter)
+            icon.addEventListener('click', () => {
+                let filterCurrent = filter
+                for(let i =0; i < filter.ustensils.length; i++) {
+                    if(filter.ustensils[i] === e) {
+                        filterCurrent.ustensils.splice(i, 1)
+                    }
+                }
+                for(let i =0; i < tagsAlreadyCreatedUsten.length; i++) {
+                    if(tagsAlreadyCreatedUsten[i] === e) {
+                        tagsAlreadyCreatedUsten.splice(i, 1)
+                    }
+                }
+                filter = filterCurrent
+                console.log(filter)
+                render(sortRecipesWithArrayMethod(recipes, filter))
+                document.getElementById(`${e}`).remove()
+            })
+
+            tagsAlreadyCreatedUsten.push(e)
+            div.appendChild(p)
+            div.appendChild(icon)
+            tags.appendChild(div)
+        }
+    })
 }
 
 // fn pour rendre le contenu dynamique
