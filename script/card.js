@@ -33,14 +33,16 @@ listeIngredient.map(e => {
 })
 
 // faire la même chose pour les appareils
+let tagsAlreadyCreatedAppliance = []
 listeAppliance.map(e => {
     let span = document.createElement('span')
     span.innerText = e
     span.className = "col-4"
     span.addEventListener('click', () => {
-        if(!filter.appliance.includes(e)) {
+        if(!filter.appliance.includes(e) && tagsAlreadyCreatedAppliance.length < 1) {
             filter.appliance = e
             render(sortRecipesWithArrayMethod(recipes, filter))
+            createTags(filter)
         }
     })
 
@@ -160,6 +162,33 @@ function createTags(filter) {
             tags.appendChild(div)
         }
     })
+    if(filter.appliance != '' && tagsAlreadyCreatedAppliance.length < 1) {
+        tagsAlreadyCreatedAppliance.push(filter.appliance)
+        let div = document.createElement('div')
+        div.className = 'bg-success p-2 d-flex align-items-center text-white rounded me-2'
+        div.style.width = 'fit-content'
+        div.setAttribute('id', filter.appliance)
+    
+        let p = document.createElement('p')
+        p.className = 'px-1 m-0'
+        p.innerText = filter.appliance
+    
+        let icon = document.createElement('i')
+        icon.className= 'fa-regular fa-circle-xmark px-2'
+        icon.addEventListener('click', () => {
+            let filterCurrent = filter
+            document.getElementById(`${filter.appliance}`).remove()
+            filterCurrent.appliance = ''
+            filter = filterCurrent
+            console.log(filter)
+            render(sortRecipesWithArrayMethod(recipes, filter))
+            tagsAlreadyCreatedAppliance = []
+            })
+
+        div.appendChild(p)
+        div.appendChild(icon)
+        tags.appendChild(div)
+    }
 }
 
 // fn pour rendre le contenu dynamique
