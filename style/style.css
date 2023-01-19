@@ -1,28 +1,97 @@
-.accordion-button {
-  pointer-events: none;
+.header-title {
+  color: #D04F4F;
 }
 
-.accordion-button::after {
-  pointer-events: all;
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23fff'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+.accordion-header-ct {
+  min-width: 150px;
+  width: 150px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+  transition: all ease-in 0.3s;
 }
-
-.accordion-button:not(.collapsed)::after {
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23fff'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+.accordion-header-ct .ct-icon {
+  -webkit-animation: all ease-in 0.5s;
+          animation: all ease-in 0.5s;
 }
-
-.accordion-button:focus {
-  box-shadow: none;
-}
-
-.input-filter {
-  pointer-events: auto;
-}
-
-.filters {
-  z-index: 3;
-}
-
-.results {
+.accordion-header-ct .ct-icon .bi-chevron-down {
+  font-size: 20px;
+  cursor: pointer;
   position: relative;
+  top: -3px;
+}
+
+.accordion-active {
+  width: 700px;
+}
+
+.accordion-body-ct {
+  height: 0;
+  padding: 0;
+  position: absolute;
+  max-height: 400px;
+  background-color: red;
+  z-index: 4;
+  max-width: 700px;
+  overflow: hidden;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  margin-left: 0px;
+  color: white;
+  transition: all ease-in 0.2s;
+}
+.accordion-body-ct span {
+  cursor: pointer;
+}
+
+#ct-acc-1 {
+  background-color: #3282F7;
+  border-radius: 5px;
+}
+#ct-acc-1 .accordion-body-ct {
+  background-color: #3282F7;
+}
+
+#ct-acc-2 {
+  background-color: #68D9A4;
+  border-radius: 5px;
+}
+#ct-acc-2 .accordion-body-ct {
+  background-color: #68D9A4;
+}
+
+#ct-acc-3 {
+  background-color: #ED6454;
+  border-radius: 5px;
+}
+#ct-acc-3 .accordion-body-ct {
+  background-color: #ED6454;
+}
+
+.input-acc {
+  width: 250px;
+  border: none;
+  color: white;
+}
+
+.input-acc:focus {
+  outline: none;
+}
+
+#input-acc-1 {
+  background-color: #3282F7;
+}
+
+#input-acc-2 {
+  background-color: #68D9A4;
+}
+
+#input-acc-3 {
+  background-color: #ED6454;
+}
+
+.card {
+  -webkit-animation: all ease-in 0.3s;
+          animation: all ease-in 0.3s;
 }/*# sourceMappingURL=style.css.map */

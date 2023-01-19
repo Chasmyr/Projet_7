@@ -21,7 +21,6 @@ function sortRecipesWithArrayMethod(recipes, sortCriteria) {
         })
         recettesFiltres = recetteFiltresCurrent
     }
-    // maintenant faut ajouter de quoi filtrer aussi la description et les ingrédients grace au texte
 
     // filtrer ensuite les recettes en fn des ingrédients
     if(sortCriteria.hasOwnProperty('ingredients')) {
