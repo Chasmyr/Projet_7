@@ -5,6 +5,8 @@ const ingredientBody = document.querySelector('#collapseOne > .accordion-body')
 const applianceBody = document.querySelector('#collapseTwo > .accordion-body')
 const ustensilBody = document.querySelector('#collapseThree > .accordion-body')
 const accordionIngr = document.getElementById('accordionOne')
+const accordionApp = document.getElementById('accordionTwo')
+const accordionUst = document.getElementById('accordionThree')
 const tags = document.querySelector('.tags')
 
 let filter = {
@@ -15,6 +17,30 @@ let filter = {
 }
 let result = sortRecipesWithArrayMethod(recipes, filter)
 render(result)
+
+// ajouter l'input au clic du btn
+const ingrBtn = accordionIngr.querySelector('.accordion-button')
+accordionIngr.addEventListener('click', () => {
+    // fermer les autres accordions
+    if(!accordionApp.querySelector('.accordion-button').classList.contains('collapsed')) {
+        accordionApp.querySelector('.accordion-button').classList.add('collapsed')
+        document.getElementById('collapseTwo').classList.remove('show')
+    }
+    if(!accordionUst.querySelector('.accordion-button').classList.contains('collapsed')) {
+        accordionUst.querySelector('.accordion-button').classList.add('collapsed')
+        document.getElementById('collapseThree').classList.remove('show')
+    }
+
+    // générer l'input
+    if(!ingrBtn.classList.contains('collapsed')) {
+        ingrBtn.innerHTML = '<input type="text" class="input-filter" placeholder="Rechercher un ingrédient">'
+        ingrBtn.querySelector('input').addEventListener('click', (e) => {
+            console.log(e)
+        })
+    } else {
+        ingrBtn.innerText = 'Ingrédients'
+    }
+})
 
 // initialiser le contenu avec les données et render avec le filtre
 listeIngredient.map(e => {
@@ -66,7 +92,7 @@ listeUstensil.map(e => {
 })
 
 // event listener
-input.addEventListener('keydown', (e) => {
+input.addEventListener('change', (e) => {
     let text = input.value
     if(text.length >= 3){
         let filterCurrent = filter
