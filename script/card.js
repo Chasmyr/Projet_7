@@ -8,7 +8,7 @@ let filter = {
     appliance: '',
     ustensils: []
 }
-let result = sortRecipesWithArrayMethod(recipes, filter)
+let result = sortRecipesWithNativeLoop(recipes, filter)
 render(result)
 
 // event listener
@@ -19,13 +19,13 @@ input.addEventListener('keyup', () => {
         filterCurrent.name = input.value
         filter = filterCurrent
         console.log(filter)
-        result = sortRecipesWithArrayMethod(recipes, filter)
+        result = sortRecipesWithNativeLoop(recipes, filter)
         render(result)
     } else {
         let filterCurrent = filter
         filterCurrent.name = ''
         filter = filterCurrent
-        render(sortRecipesWithArrayMethod(recipes, filter))
+        render(sortRecipesWithNativeLoop(recipes, filter))
     }
 })
 

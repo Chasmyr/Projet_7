@@ -107,7 +107,7 @@ function renderIngr() {
                 span.addEventListener('click', () => {
                     if(!filter.ingredients.includes(e)) {
                         filter.ingredients.push(e)
-                        render(sortRecipesWithArrayMethod(recipes, filter))
+                        render(sortRecipesWithNativeLoop(recipes, filter))
                         createTags(filter)
                     }
                 })
@@ -128,7 +128,7 @@ function renderIngr() {
             span.addEventListener('click', () => {
                 if(!filter.ingredients.includes(e)) {
                     filter.ingredients.push(e)
-                    render(sortRecipesWithArrayMethod(recipes, filter))
+                    render(sortRecipesWithNativeLoop(recipes, filter))
                     createTags(filter)
                 }
             })
@@ -149,7 +149,7 @@ function renderApp() {
             span.addEventListener('click', () => {
                 if(!filter.appliance.includes(e) && tagsAlreadyCreatedAppliance.length < 1) {
                     filter.appliance = e
-                    render(sortRecipesWithArrayMethod(recipes, filter))
+                    render(sortRecipesWithNativeLoop(recipes, filter))
                     createTags(filter)
                 }
             })
@@ -171,7 +171,7 @@ function renderApp() {
             span.addEventListener('click', () => {
                 if(!filter.appliance.includes(e) && tagsAlreadyCreatedAppliance.length < 1) {
                     filter.appliance = e
-                    render(sortRecipesWithArrayMethod(recipes, filter))
+                    render(sortRecipesWithNativeLoop(recipes, filter))
                     createTags(filter)
                 }
             })
@@ -192,7 +192,7 @@ function renderUst() {
             span.addEventListener('click', () => {
                 if(!filter.ustensils.includes(e)) {
                     filter.ustensils.push(e)
-                    render(sortRecipesWithArrayMethod(recipes, filter))
+                    render(sortRecipesWithNativeLoop(recipes, filter))
                     createTags(filter)
                 }
             })
@@ -214,7 +214,7 @@ function renderUst() {
             span.addEventListener('click', () => {
                 if(!filter.ustensils.includes(e)) {
                     filter.ustensils.push(e)
-                    render(sortRecipesWithArrayMethod(recipes, filter))
+                    render(sortRecipesWithNativeLoop(recipes, filter))
                     createTags(filter)
                 }
             })

@@ -33,7 +33,7 @@ function createTags(filter) {
                 console.log(filter)
                 filter = filterCurrent
                 console.log(filter)
-                render(sortRecipesWithArrayMethod(recipes, filter))
+                render(sortRecipesWithNativeLoop(recipes, filter))
                 document.getElementById(`${e}`).remove()
             })
             tagsAlreadyCreatedIngr.push(e)
@@ -71,7 +71,7 @@ function createTags(filter) {
                 }
                 filter = filterCurrent
                 console.log(filter)
-                render(sortRecipesWithArrayMethod(recipes, filter))
+                render(sortRecipesWithNativeLoop(recipes, filter))
                 document.getElementById(`${e}`).remove()
             })
 
@@ -101,7 +101,7 @@ function createTags(filter) {
             filterCurrent.appliance = ''
             filter = filterCurrent
             console.log(filter)
-            render(sortRecipesWithArrayMethod(recipes, filter))
+            render(sortRecipesWithNativeLoop(recipes, filter))
             tagsAlreadyCreatedAppliance = []
             })
 
