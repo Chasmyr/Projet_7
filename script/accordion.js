@@ -18,7 +18,7 @@ customAccordion1.querySelector('.bi-chevron-down').addEventListener('click', (e)
     if(!customAccordion1.querySelector('.accordion-header-ct').classList.contains('accordion-active')) {
         customAccordion1.querySelector('.accordion-header-ct').classList.add('accordion-active')
         customBody1.style.height = 'auto'
-        customBody1.style.width = '700px'
+        customBody1.style.width = '620px'
         customBody1.style.padding = '10px'
         icon.style.transform = 'rotate(180deg)'
         customAccordion1.style.borderBottomRightRadius = '0'
@@ -46,7 +46,7 @@ customAccordion2.querySelector('.bi-chevron-down').addEventListener('click', (e)
     if(!customAccordion2.querySelector('.accordion-header-ct').classList.contains('accordion-active')) {
         customAccordion2.querySelector('.accordion-header-ct').classList.add('accordion-active')
         customBody2.style.height = 'auto'
-        customBody2.style.width = '700px'
+        customBody2.style.width = '620px'
         customBody2.style.padding = '10px'
         icon.style.transform = 'rotate(180deg)'
         customAccordion2.style.borderBottomRightRadius = '0'
@@ -74,7 +74,7 @@ customAccordion3.querySelector('.bi-chevron-down').addEventListener('click', (e)
     if(!customAccordion3.querySelector('.accordion-header-ct').classList.contains('accordion-active')) {
         customAccordion3.querySelector('.accordion-header-ct').classList.add('accordion-active')
         customBody3.style.height = 'auto'
-        customBody3.style.width = '700px'
+        customBody3.style.width = '620px'
         customBody3.style.padding = '10px'
         icon.style.transform = 'rotate(180deg)'
         customAccordion3.style.borderBottomRightRadius = '0'
@@ -227,7 +227,7 @@ function renderUst() {
 
 function onlyOneAccOpen(target) {
     if(customAccordion1.querySelector('.accordion-header-ct').classList.contains('accordion-active') && !target.classList.contains('acc-1')) {
-        let icon = customAccordion2.querySelector('.ct-icon')
+        let icon = customAccordion1.querySelector('.ct-icon')
         customAccordion1.querySelector('.accordion-header-ct').classList.remove('accordion-active')
         customBody1.style.height = '0'
         customBody1.style.padding = '0'
@@ -249,7 +249,7 @@ function onlyOneAccOpen(target) {
     }
 
     if(customAccordion3.querySelector('.accordion-header-ct').classList.contains('accordion-active') && !target.classList.contains('acc-3')) {
-        let icon = customAccordion2.querySelector('.ct-icon')
+        let icon = customAccordion3.querySelector('.ct-icon')
         customAccordion3.querySelector('.accordion-header-ct').classList.remove('accordion-active')
         customBody3.style.height = '0'
         customBody3.style.padding = '0'

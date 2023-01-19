@@ -73,7 +73,7 @@ function render(result) {
                 list.appendChild(li)
             })
             
-            div.innerHTML = `<img src="http://via.placeholder.com/380x178/1f1a38/ffffff?text=Image" class="card-img-top" alt="...">` +
+            div.innerHTML = `<img src="./images/ffffff.png" class="card-img-top" alt="...">` +
             `<div class="card-body row mb-2">` +
                 `<div class="card-title d-flex justify-content-between">` +
                     `<h5 style="max-width: 250px;">${recette.name}</h5>` +

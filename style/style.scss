@@ -3,6 +3,24 @@
         color: #D04F4F;    
     }
 
+    .icon-search-input {
+        position: absolute;    
+        right: 10px;
+        bottom: 7px;
+        font-size: 30px;
+    }
+    .search-input {
+        background-color: #E7E7E7;
+        width: 100%;
+        border: none;
+        padding: 10px;
+        font-size: 20px;
+        border-radius: 5px !important;
+    }
+    .search-input:focus {
+        outline: none;    
+    }
+
 // custom accordion
     .accordion-header-ct {
         min-width: 150px;
@@ -24,7 +42,7 @@
     }
 
     .accordion-active {
-        width: 700px;
+        width: 620px;
     }
 
     .accordion-body-ct {
