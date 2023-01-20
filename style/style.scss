@@ -31,7 +31,7 @@
         color: white;   
         transition: all ease-in 0.3s;
         .ct-icon {
-            animation: all ease-in .5s;
+            transition: all ease-in .3s;
             .bi-chevron-down {
             font-size: 20px;
             cursor: pointer;
@@ -95,6 +95,9 @@
     }
     .input-acc:focus {
         outline: none;    
+    }
+    .input-acc::placeholder {
+        color: white;    
     }
 
     #input-acc-1 {
