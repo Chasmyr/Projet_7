@@ -99,6 +99,18 @@
   outline: none;
 }
 
+.input-acc::-moz-placeholder {
+  color: white;
+}
+
+.input-acc:-ms-input-placeholder {
+  color: white;
+}
+
+.input-acc::placeholder {
+  color: white;
+}
+
 #input-acc-1 {
   background-color: #3282F7;
 }

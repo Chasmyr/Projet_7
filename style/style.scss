@@ -96,6 +96,10 @@
     .input-acc:focus {
         outline: none;    
     }
+    .input-acc::placeholder {
+        color: white;    
+    }
+
 
     #input-acc-1 {
         background-color: #3282F7;
